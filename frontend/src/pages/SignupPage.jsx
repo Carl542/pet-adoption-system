@@ -37,7 +37,7 @@ function SignupPage() {
     setLoading(true);
 
     try {
-      const { user, error } = await signUp(
+      const { error } = await signUp(
         formData.email,
         formData.password,
         formData.fullName

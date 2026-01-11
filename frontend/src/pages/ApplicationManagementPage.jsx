@@ -13,6 +13,7 @@ function ApplicationManagementPage() {
 
   useEffect(() => {
     fetchApplications();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchApplications = async () => {
@@ -45,7 +46,8 @@ function ApplicationManagementPage() {
 
     try {
       setUpdating(true);
-      const { data, error } = await updateApplicationStatus(
+      // FIXED: Removed unused 'data' variable
+      const { error } = await updateApplicationStatus(
         reviewingApp.fact_id, 
         newStatus, 
         reviewNotes

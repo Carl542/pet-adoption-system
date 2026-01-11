@@ -8,29 +8,29 @@ function QRCodeDisplay({ pet }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const loadQRCode = async () => {
+      try {
+        const data = await generateQRCode(pet.pet_id, pet.name);
+        setQrData(data);
+      } catch (error) {
+        console.error('Error loading QR code:', error);
+      }
+    };
+
+    const loadScanStats = async () => {
+      try {
+        const stats = await getQRScanStats(pet.pet_id);
+        setScanStats(stats);
+      } catch (error) {
+        console.error('Error loading scan stats:', error);
+      }
+    };
+
     if (pet.qr_code_generated) {
       loadQRCode();
       loadScanStats();
     }
-  }, [pet]);
-
-  const loadQRCode = async () => {
-    try {
-      const data = await generateQRCode(pet.pet_id, pet.name);
-      setQrData(data);
-    } catch (error) {
-      console.error('Error loading QR code:', error);
-    }
-  };
-
-  const loadScanStats = async () => {
-    try {
-      const stats = await getQRScanStats(pet.pet_id);
-      setScanStats(stats);
-    } catch (error) {
-      console.error('Error loading scan stats:', error);
-    }
-  };
+  }, [pet.qr_code_generated, pet.pet_id, pet.name]);
 
   const handleGenerateQR = async () => {
     try {

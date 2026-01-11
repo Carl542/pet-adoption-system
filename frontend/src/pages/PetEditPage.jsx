@@ -14,20 +14,20 @@ function PetEditPage() {
   const [activeTab, setActiveTab] = useState('details');
 
   useEffect(() => {
-    fetchPet();
-  }, [id]);
+    const fetchPet = async () => {
+      try {
+        const data = await getPetById(id);
+        setPet(data);
+      } catch (error) {
+        alert('Failed to load pet');
+        navigate('/admin');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const fetchPet = async () => {
-    try {
-      const data = await getPetById(id);
-      setPet(data);
-    } catch (error) {
-      alert('Failed to load pet');
-      navigate('/admin');
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchPet();
+  }, [id, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
